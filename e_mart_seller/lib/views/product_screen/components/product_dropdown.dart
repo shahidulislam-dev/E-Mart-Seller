@@ -14,5 +14,5 @@ Widget productDropdown() {
         items: const [],
         onChanged: (value) {},
   )
-  ).box.color(white).make();
+  ).box.color(white).height(33).make();
 }

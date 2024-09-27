@@ -9,7 +9,7 @@ Widget customTextField(String? title,color, String? hint,controller,isPass, isDe
       ),
       5.heightBox,
       TextField(
-        // controller: controller,
+        controller: controller,
         maxLines: isDescription ? 4 : 1,
         obscureText: isPass,
         decoration: InputDecoration(

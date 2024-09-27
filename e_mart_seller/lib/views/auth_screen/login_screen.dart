@@ -1,8 +1,10 @@
 
 import 'package:e_mart_seller/const/const.dart';
+import 'package:e_mart_seller/controllers/auth_controlller.dart';
 import 'package:e_mart_seller/views/home_screen/home.dart';
 import 'package:e_mart_seller/views/widget_common/buttons.dart';
 import 'package:e_mart_seller/views/widget_common/custom_textfield.dart';
+import 'package:e_mart_seller/views/widget_common/loading_indecator.dart';
 import 'package:e_mart_seller/views/widget_common/text_style.dart';
 import 'package:get/get.dart';
 
@@ -12,8 +14,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController emailController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
+   var controller = Get.put(AuthController());
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: purpleColor,
@@ -33,18 +34,30 @@ class LoginScreen extends StatelessWidget {
             30.heightBox,
             normalText(text: loginTo, color: lightGrey, size: 20.0),
             5.heightBox,
-            Column(
-              children: [
-                customTextField(email,purpleColor, emailHint, emailController, false,false ),
-                10.heightBox,
-                customTextField(password,purpleColor, passwordHint, passwordController, true,false ),
-                Align(alignment: Alignment.centerRight, child: TextButton(onPressed: (){}, child: normalText(text: forgotPassword,color: purpleColor))),
-                10.heightBox,
-                buttons((){
-                  Get.to(const Home());
-                }, purpleColor, white, login).box.width(context.screenWidth-30).make()
-              ],
-            ).box.rounded.color(white).padding(const EdgeInsets.all(12)).shadowSm.make(),
+            Obx(()=> Column(
+                children: [
+                  customTextField(email,purpleColor, emailHint, controller.emailController, false,false ),
+                  10.heightBox,
+                  customTextField(password,purpleColor, passwordHint, controller.passwordController, true,false ),
+                  Align(alignment: Alignment.centerRight, child: TextButton(onPressed: (){}, child: normalText(text: forgotPassword,color: purpleColor))),
+                  10.heightBox,
+                  controller.isLoading.value ? loadingIndicator(color: purpleColor, size: 35) : buttons(() async{
+                    controller.isLoading(true);
+                    await controller.loginMethod(context).then((value){
+                      if(value != null){
+                        controller.isLoading(false);
+                        VxToast.show(context, msg: "Logged In", bgColor: green, textColor: white);
+                        Get.offAll(() =>const Home());
+                      }else{
+                        controller.isLoading(false);
+                        VxToast.show(context, msg: "Error to logged in", bgColor: red,textColor: white);
+                      }
+                    });
+              
+                  }, purpleColor, white, login).box.width(context.screenWidth-30).make()
+                ],
+              ).box.rounded.color(white).padding(const EdgeInsets.all(12)).shadowSm.make(),
+            ),
             10.heightBox,
             Center(
               child: normalText(text: anyProblem),

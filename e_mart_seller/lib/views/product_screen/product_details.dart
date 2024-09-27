@@ -37,6 +37,14 @@ class ProductDetails extends StatelessWidget {
                   boldText(text: "Product Title",color: fontGrey,size: 16.0),
                   //title!.text.size(16).color(darkFontGrey).fontFamily(bold).make(),
                   10.heightBox,
+                  Row(
+                    children: [
+                      boldText(text: "Category", color: fontGrey, size: 16.0),
+                      10.widthBox,
+                      normalText(text: "Subcategory", color: fontGrey, size: 16.0)
+                    ],
+                  ),
+                  10.heightBox,
                   VxRating(
                     isSelectable: true,
                     value: 3.0,

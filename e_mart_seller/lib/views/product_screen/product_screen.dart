@@ -45,7 +45,13 @@ class ProductScreen extends StatelessWidget {
                               title: boldText(
                                   text: "Product Title", color: fontGrey),
                               subtitle:
-                                  normalText(text: "40.0", color: darkGrey),
+                                  Row(
+                                    children: [
+                                      normalText(text: "40.0", color: darkGrey),
+                                      20.widthBox,
+                                      boldText(text: "Featured", color: green)
+                                    ],
+                                  ),
                               trailing: VxPopupMenu(
                                 arrowSize: 0.0,
                                 menuBuilder: ()=> Column(
