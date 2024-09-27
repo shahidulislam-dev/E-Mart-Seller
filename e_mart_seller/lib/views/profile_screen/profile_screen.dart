@@ -23,29 +23,51 @@ class ProfileScreen extends StatelessWidget {
         automaticallyImplyLeading: false,
         title: boldText(text: setting, size: 16.0),
         actions: [
-          IconButton(onPressed: (){Get.to( EditProfileScreen(
-            username: controller.snapshotData['vendor_name'],
-          ));}, icon: const Icon(Icons.edit, color: white,)),
-          TextButton(onPressed: () async{
-            await Get.find<AuthController>().signOutMethod(context);
-            Get.offAll(()=> const LoginScreen());
-          }, child: normalText(text: logout))
+          IconButton(
+              onPressed: () {
+                Get.to(EditProfileScreen(
+                  username: controller.snapshotData['vendor_name'],
+                ));
+              },
+              icon: const Icon(
+                Icons.edit,
+                color: white,
+              )),
+          TextButton(
+              onPressed: () async {
+                await Get.find<AuthController>().signOutMethod(context);
+                Get.offAll(() => const LoginScreen());
+              },
+              child: normalText(text: logout))
         ],
       ),
-      body: FutureBuilder (
+      body: FutureBuilder(
           future: StoreServices.getProfile(currentUser!.uid),
-          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
-            if(!snapshot.hasData){
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (!snapshot.hasData) {
               return loadingIndicator(color: white);
-            }
-            else{
+            } else {
               controller.snapshotData = snapshot.data!.docs[0];
               return Column(
                 children: [
                   ListTile(
-                    leading: Image.asset(icProduct).box.roundedFull.clip(Clip.antiAlias).make(),
-                    title: boldText(text: "${controller.snapshotData['vendor_name']}"),
-                    subtitle: normalText(text: "${controller.snapshotData['vendor_email']}"),
+                    leading: controller.snapshotData['image_url'] == ''
+                        ? Image.asset(icProduct)
+                            .box
+                            .roundedFull
+                            .clip(Clip.antiAlias)
+                            .make()
+                        : Image.network(
+                                "${controller.snapshotData['image_url']}")
+                            .box
+                            .roundedFull
+                            .clip(Clip.antiAlias)
+                            .make(),
+                    title: boldText(
+                        text: "${controller.snapshotData['vendor_name']}"),
+                    subtitle: normalText(
+                        text: "${controller.snapshotData['vendor_email']}"),
                   ),
                   const Divider(),
                   10.heightBox,
@@ -54,30 +76,31 @@ class ProfileScreen extends StatelessWidget {
                     child: Column(
                       children: List.generate(
                           profileButtonTitles.length,
-                              (index) => ListTile(
-                            onTap: (){
-                              switch(index){
-                                case 0:
-                                  Get.to(const ShopSettings());
-                                  break;
-                                case 1:
-                                  Get.to(const MessagesScreen());
-                                  break;
-                                default:
-                              }
-                            },
-                            leading: Icon(profileButtonIcons[index], color: white,),
-                            title: normalText(text: profileButtonTitles[index]),
-                          )
-
-                      ),
+                          (index) => ListTile(
+                                onTap: () {
+                                  switch (index) {
+                                    case 0:
+                                      Get.to(const ShopSettings());
+                                      break;
+                                    case 1:
+                                      Get.to(const MessagesScreen());
+                                      break;
+                                    default:
+                                  }
+                                },
+                                leading: Icon(
+                                  profileButtonIcons[index],
+                                  color: white,
+                                ),
+                                title: normalText(
+                                    text: profileButtonTitles[index]),
+                              )),
                     ),
                   )
                 ],
               );
             }
-          }
-      ),
+          }),
     );
   }
 }

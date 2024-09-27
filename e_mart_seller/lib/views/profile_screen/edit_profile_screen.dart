@@ -27,7 +27,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Obx(()=> Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
         backgroundColor: purpleColor,
         appBar: AppBar(
           foregroundColor: white,

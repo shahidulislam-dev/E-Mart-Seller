@@ -16,9 +16,17 @@ class ProfileController extends GetxController{
   var profileImageLink = '';
   var isLoading = false.obs;
 
+  //profile edit text editing controllers
   var nameController = TextEditingController();
   var oldPassController = TextEditingController();
   var newPassController = TextEditingController();
+
+  //shop setting text editing controllers
+  var shopNameController = TextEditingController();
+  var shopAddressController = TextEditingController();
+  var shopMobileController = TextEditingController();
+  var shopWebsiteController = TextEditingController();
+  var shopDescController = TextEditingController();
 
   changeImage(context) async{
     try{
@@ -49,5 +57,21 @@ class ProfileController extends GetxController{
     await currentUser!.reauthenticateWithCredential(cred).then((value){
       currentUser!.updatePassword(newPassword);
     }).catchError((error){});
+  }
+
+  //shop setting update method
+
+  updateShop({shopName, shopAddress, shopMobile, shopWebsite, shopDesc}) async{
+    var store= firestore.collection(vendorsCollection).doc(currentUser!.uid);
+    await store.set({
+      'shop_name': shopName,
+      'shop_address': shopAddress,
+      'shop_mobile': shopMobile,
+      'shop_website': shopWebsite,
+      'shop_desc': shopDesc
+    },
+    SetOptions(merge: true)
+    );
+    isLoading(false);
   }
 }
