@@ -11,7 +11,7 @@ class AddProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var controller = Get.put(ProductController());
+    var controller = Get.find<ProductController>();
     return Scaffold(
       backgroundColor: purpleColor,
       appBar: AppBar(
@@ -24,47 +24,79 @@ class AddProduct extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              customTextField("Product Name",white, "eg. BMW", controller.productNameController, false, false),
+              customTextField("Product Name", white, "eg. BMW",
+                  controller.productNameController, false, false),
               10.heightBox,
-              customTextField("Description",white, "eg. Nice product", controller.productDescController, false, true),
+              customTextField("Description", white, "eg. Nice product",
+                  controller.productDescController, false, true),
               10.heightBox,
-              customTextField("Product Price",white, "eg. 1290.0", controller.productPriceController, false, false),
+              customTextField("Product Price", white, "eg. 1290.0",
+                  controller.productPriceController, false, false),
               10.heightBox,
-              customTextField("Product Quantity",white, "eg. 20", controller.productQuantityController, false, false),
+              customTextField("Product Quantity", white, "eg. 20",
+                  controller.productQuantityController, false, false),
               10.heightBox,
               boldText(text: "Product Category", color: white, size: 16.0),
               5.heightBox,
-              productDropdown(),
+              productDropdown("Select a category", controller.categoryList,
+                  controller.categoryValue, controller),
               10.heightBox,
               boldText(text: "Product Sub-Category", color: white, size: 16.0),
               5.heightBox,
-              productDropdown(),
+              productDropdown(
+                  "Select a sub-category",
+                  controller.subCategoryList,
+                  controller.subCategoryValue,
+                  controller),
               10.heightBox,
               boldText(text: "Choose Product Images", color: white, size: 16.0),
-              normalText(text: "First image will be your display image", color: white),
+              normalText(
+                  text: "First image will be your display image", color: white),
               5.heightBox,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: List.generate(
-                    3,
-                    (index) => productImages(label: "${index + 1}"),
-                )
+              Obx(()=> Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: List.generate(
+                      3,
+                      (index) => controller.pImagesList[index] != null ? Image.file(
+                        controller.pImagesList[index],
+                        width: 100,
+                        height: 100,
+                        fit: BoxFit.cover,
+
+                      ).onTap(() {
+                        controller.picImage(index, context);
+                      }) : productImages(label: "${index + 1}").onTap((){
+                        controller.picImage(index, context);
+                      }),
+                    )),
               ),
               10.heightBox,
               boldText(text: "Choose Product Color", color: white, size: 16.0),
               5.heightBox,
-              Wrap(
-                spacing: 8.0,
-                runSpacing: 8.0,
-                children: List.generate(
-                    16,
-                    (index)=> Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        VxBox().color(Vx.randomPrimaryColor).roundedFull.size(40, 40).make(),
-                        const Icon(Icons.done_outline_sharp, color: white,size: 15,)
-                      ],
-                    )
+              Obx(()=> Wrap(
+                  spacing: 8.0,
+                  runSpacing: 8.0,
+                  children: List.generate(
+                      16,
+                      (index) => Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              VxBox()
+                                  .color(Vx.randomPrimaryColor)
+                                  .roundedFull
+                                  .size(40, 40)
+                                  .make().onTap((){
+                                    controller.selectedColor.value = index;
+                              }),
+                              controller.selectedColor.value == index
+                                  ? const Icon(
+                                      Icons.done_outline_sharp,
+                                      color: white,
+                                      size: 15,
+                                    )
+                                  : const SizedBox()
+                            ],
+                          )),
                 ),
               )
             ],

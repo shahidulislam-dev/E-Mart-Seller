@@ -16,9 +16,10 @@ Widget orderPlaceDetails({title1, title2, d1, d2}){
         SizedBox(
           width: 130,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               boldText(text: "$title2", color: purpleColor),
-              boldText(text: "$d1", color: fontGrey),
+              boldText(text: "$d2", color: fontGrey),
             ],
           ),
         )
