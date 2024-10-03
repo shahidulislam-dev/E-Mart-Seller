@@ -71,18 +71,37 @@ class ProductScreen extends StatelessWidget {
                                     menuBuilder: ()=> Column(
                                       children: List.generate(
                                           popupMenuTitles.length,
-                                              (index) => Padding(
+                                              (i) => Padding(
                                             padding: const EdgeInsets.all(12.0),
                                             child: Row(
                                               children: [
-                                                Icon(popupMenuIcons[index]),
+                                                Icon(popupMenuIcons[i], color: data[index]['featured_id'] == currentUser!.uid && i == 0 ? green : darkGrey,),
                                                 10.widthBox,
-                                                normalText(text: popupMenuTitles[index], color: darkGrey)
+                                                normalText(text: data[index]['featured_id'] == currentUser!.uid && i == 0 ? "Remove Feature" : popupMenuTitles[i], color: darkGrey)
                                               ],
-                                            ).onTap((){}),
+                                            ).onTap((){
+                                              switch(i) {
+                                                case 0:
+                                                  if(data[index]['is_featured'] == true){
+                                                    controller.removeFeatured(data[index].id);
+                                                    VxToast.show(context, msg: "Featured Removed", bgColor: green);
+                                                  }else{
+                                                    controller.addFeatured(data[index].id);
+                                                    VxToast.show(context, msg: "Featured Added", bgColor: green);
+                                                  }
+                                                  break;
+                                                case 1:
+                                                  break;
+                                                case 2:
+                                                  controller.removeProduct(data[index].id);
+                                                  VxToast.show(context, msg: "Product Removed", bgColor: green);
+                                                  break;
+                                                default:
+                                              }
+                                            }),
                                           )
                                       ),
-                                    ).box.white.width(150).rounded.make(),
+                                    ).box.white.width(200).rounded.make(),
                                     clickType: VxClickType.singleClick,
                                     child: const Icon(Icons.more_vert_rounded),
                                   ),

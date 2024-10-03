@@ -69,7 +69,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     controller.isLoading(false);
                   }
                 },
-                child: normalText(text: save)).marginOnly(right: 10)
+                child: normalText(text: "Update")).marginOnly(right: 10)
           ],
         ),
         body: Padding(

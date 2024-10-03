@@ -64,7 +64,6 @@ class Home extends StatelessWidget {
       body: Obx(
         () => Column(
           children: [
-            40.heightBox,
             Expanded(child: navScreens.elementAt(controller.navIndex.value))
           ],
         ),
