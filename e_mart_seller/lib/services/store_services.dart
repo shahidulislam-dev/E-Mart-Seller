@@ -21,6 +21,10 @@ class StoreServices{
     return firestore.collection(productsCollection).where('vendor_id', isEqualTo: uid).orderBy('p_wishlist'.length);
   }
 
+  static getProductForEdit(uid){
+    return firestore.collection(productsCollection).where('id', isEqualTo: uid).get();
+  }
+
   static Future<int> getOrdersCount(String uid) async {
     var ordersSnapshot = await firestore.collection(ordersCollection).where('vendors', arrayContains: uid).get();
     return ordersSnapshot.docs.length; // Ensure this returns an integer

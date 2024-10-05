@@ -61,23 +61,45 @@ class ProductController extends GetxController{
     }
   }
 
-  uploadImages() async{
+
+  uploadImages() async {
     pImagesLinks.clear();
-    for(var item in pImagesList){
-      if(item != null){
-        var filename = basename(item.path);
-        var destination = 'images/vendors/${currentUser!.uid}/$filename';
-        Reference ref = FirebaseStorage.instance.ref().child(destination);
-        await ref.putFile(item);
-        var n = await ref.getDownloadURL();
-        pImagesLinks.add(n);
+    for (var item in pImagesList) {
+      if (item != null) {
+        if (item is File) {
+          var filename = basename(item.path);
+          var destination = 'images/vendors/${currentUser!.uid}/$filename';
+          Reference ref = FirebaseStorage.instance.ref().child(destination);
+          await ref.putFile(item);
+          var downloadUrl = await ref.getDownloadURL();
+          pImagesLinks.add(downloadUrl);
+        } else if (item is String) {
+          pImagesLinks.add(item);
+        }
       }
     }
   }
-  
-  uploadProducts(context) async{
-    var store = firestore.collection(productsCollection).doc();
+
+  // uploadImages() async{
+  //   pImagesLinks.clear();
+  //   for(var item in pImagesList){
+  //     if(item != null){
+  //       var filename = basename(item.path);
+  //       var destination = 'images/vendors/${currentUser!.uid}/$filename';
+  //       Reference ref = FirebaseStorage.instance.ref().child(destination);
+  //       await ref.putFile(item);
+  //       var n = await ref.getDownloadURL();
+  //       pImagesLinks.add(n);
+  //     }
+  //   }
+  // }
+
+  uploadProducts(context) async {
+    var store = firestore.collection(productsCollection).doc();  // Create a new document reference with a unique ID
+    var productId = store.id;  // Get the generated document ID
+
     await store.set({
+      'id': productId,  // Add the ID to the document data
       'is_featured': false,
       'p_category': categoryValue.value,
       'p_subcategory': subCategoryValue.value,
@@ -93,10 +115,12 @@ class ProductController extends GetxController{
       'vendor_id': currentUser!.uid,
       'featured_id': '',
     });
+
     isLoading(false);
     VxToast.show(context, msg: "Product Added", bgColor: green);
   }
-  
+
+
   addFeatured(docId) async{
    await firestore.collection(productsCollection).doc(docId).set({
       'featured_id': currentUser!.uid,
@@ -113,5 +137,31 @@ class ProductController extends GetxController{
 
   removeProduct(docId) async{
     await firestore.collection(productsCollection).doc(docId).delete();
+  }
+
+  void resetFields() {
+    productNameController.clear();
+    productDescController.clear();
+    productPriceController.clear();
+    productQuantityController.clear();
+    pImagesList.value = [null, null, null]; // Reset images
+    selectedColor.value = 0;
+    categoryValue.value = '';
+    subCategoryValue.value = '';
+  }
+  updateProduct(context,String productId) async {
+    var store = firestore.collection(productsCollection).doc(productId);
+    await store.update({
+      'p_name': productNameController.text,
+      'p_description': productDescController.text,
+      'p_price': productPriceController.text,
+      'p_quantity': productQuantityController.text,
+      'p_category': categoryValue.value,
+      'p_subcategory': subCategoryValue.value,
+      'p_images': FieldValue.arrayUnion(pImagesLinks),
+      'p_colors': [selectedColor.value]
+    });
+    isLoading(false);
+    VxToast.show(context, msg: "Product Updated", bgColor: green);
   }
 }

@@ -3,6 +3,7 @@ import 'package:e_mart_seller/const/const.dart';
 import 'package:e_mart_seller/controllers/product_controller.dart';
 import 'package:e_mart_seller/services/store_services.dart';
 import 'package:e_mart_seller/views/product_screen/add_product.dart';
+import 'package:e_mart_seller/views/product_screen/edit_product.dart';
 import 'package:e_mart_seller/views/product_screen/product_details.dart';
 import 'package:e_mart_seller/views/widget_common/appbar_widget.dart';
 import 'package:e_mart_seller/views/widget_common/loading_indecator.dart';
@@ -10,9 +11,14 @@ import 'package:e_mart_seller/views/widget_common/text_style.dart';
 import 'package:get/get.dart';
 
 
-class ProductScreen extends StatelessWidget {
+class ProductScreen extends StatefulWidget {
   const ProductScreen({super.key});
 
+  @override
+  State<ProductScreen> createState() => _ProductScreenState();
+}
+
+class _ProductScreenState extends State<ProductScreen> {
   @override
   Widget build(BuildContext context) {
     var controller = Get.put(ProductController());
@@ -23,6 +29,7 @@ class ProductScreen extends StatelessWidget {
         onPressed: () async{
           await controller.getCategories();
           controller.populateCategoryList();
+          controller.resetFields();  // Reset fields before navigating
           Get.to(const AddProduct());
         },
         child: const Icon(
@@ -91,6 +98,7 @@ class ProductScreen extends StatelessWidget {
                                                   }
                                                   break;
                                                 case 1:
+                                                  Get.to(() => EditProduct(productData: data[index].data() as Map<String, dynamic>));
                                                   break;
                                                 case 2:
                                                   controller.removeProduct(data[index].id);
