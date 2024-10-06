@@ -7,6 +7,25 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:699210472074:android:d33f9893db54d42fb92b73",
+        "android_client_info": {
+          "package_name": "com.codeRanger.e_mart_seller"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwWi0JHCEIaYNtlHfOoxoBrXb8uCfZlpk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:699210472074:android:d510376c77e365c6b92b73",
         "android_client_info": {
           "package_name": "com.e_mart_seller.e_mart_seller"

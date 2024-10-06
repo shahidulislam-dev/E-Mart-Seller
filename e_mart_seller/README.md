@@ -1,6 +1,6 @@
 # e_mart_seller
 
-An E-Commerce  Mobile Application
+An E-Commerce Type Application.
 
 ## Getting Started
 
