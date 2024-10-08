@@ -4,10 +4,9 @@ import 'package:e_mart_seller/views/splash_screen/splash_service.dart';
 import 'package:e_mart_seller/views/widget_common/app_logo.dart';
 import 'package:e_mart_seller/views/widget_common/text_style.dart';
 import 'package:get/get.dart';
-import 'package:flutter/material.dart'; // Import this if not already included
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+  const SplashScreen({super.key});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();

@@ -3,6 +3,7 @@ import 'package:e_mart_seller/controllers/profile_controller.dart';
 import 'package:e_mart_seller/views/widget_common/custom_textfield.dart';
 import 'package:e_mart_seller/views/widget_common/loading_indecator.dart';
 import 'package:e_mart_seller/views/widget_common/text_style.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 class ShopSettings extends StatelessWidget {
@@ -30,9 +31,8 @@ class ShopSettings extends StatelessWidget {
                         shopWebsite: controller.shopWebsiteController.text,
                         shopDesc: controller.shopDescController.text,
                       );
-                      VxToast.show(context,
-                          msg: "Shop Details Updated",
-                          bgColor: green,
+                      Fluttertoast.showToast(msg: "Shop Details Updated",
+                          backgroundColor: green,
                           textColor: white);
                     },
                     child: normalText(text: save))

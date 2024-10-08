@@ -45,7 +45,7 @@ class EditProduct extends StatelessWidget {
               onPressed: () async {
                 controller.isLoading(true);
                 await controller.uploadImages();
-                await controller.updateProduct(context, productData['id']); // Call the update function
+                await controller.updateProduct(productData['id']); // Call the update function
                 Get.back();
               },
               child: normalText(text: "Update"))

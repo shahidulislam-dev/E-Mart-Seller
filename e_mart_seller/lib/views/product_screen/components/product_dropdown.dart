@@ -3,7 +3,7 @@ import 'package:e_mart_seller/controllers/product_controller.dart';
 import 'package:e_mart_seller/views/widget_common/text_style.dart';
 import 'package:get/get.dart';
 
-Widget productDropdown(hint, List<String> list, dropValue, ProductController controller) {
+Widget productDropdown(hint, List<String> list, RxString dropValue, ProductController controller) {
   // Create a unique list to avoid duplicates
   List<String> uniqueList = list.toSet().toList();
 
@@ -15,7 +15,7 @@ Widget productDropdown(hint, List<String> list, dropValue, ProductController con
           child: normalText(text: "$hint", color: lightGrey),
         ),
         isDense: true,
-        value: dropValue.value.isEmpty ? null : dropValue.value,
+        value: uniqueList.contains(dropValue.value) ? dropValue.value : null,
         isExpanded: true,
         items: uniqueList.map((e) {
           return DropdownMenuItem(
@@ -34,3 +34,4 @@ Widget productDropdown(hint, List<String> list, dropValue, ProductController con
     ),
   );
 }
+

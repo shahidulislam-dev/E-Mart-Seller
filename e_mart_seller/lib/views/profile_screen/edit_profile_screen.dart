@@ -6,6 +6,7 @@ import 'package:e_mart_seller/views/widget_common/buttons.dart';
 import 'package:e_mart_seller/views/widget_common/custom_textfield.dart';
 import 'package:e_mart_seller/views/widget_common/loading_indecator.dart';
 import 'package:e_mart_seller/views/widget_common/text_style.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 class EditProfileScreen extends StatefulWidget {
@@ -56,7 +57,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         imgurl: controller.profileImageLink,
                         name: controller.nameController.text,
                         password: controller.newPassController.text);
-                    VxToast.show(context, msg: "Profile Updated", bgColor: green);
+                    Fluttertoast.showToast(msg: "Profile Updated", backgroundColor: green);
                   } else if (controller.oldPassController.text.isEmptyOrNull &&
                       controller.newPassController.text.isEmptyOrNull) {
                     await controller.updateProfile(
@@ -64,8 +65,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         name: controller.nameController.text,
                         password: controller.snapshotData['vendor_password']);
                   } else {
-                    VxToast.show(context,
-                        msg: "Wrong Old Password", bgColor: red);
+                    Fluttertoast.showToast(msg: "Wrong Old Password", backgroundColor: red);
                     controller.isLoading(false);
                   }
                 },

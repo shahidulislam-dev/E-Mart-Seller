@@ -14,7 +14,7 @@ class OrdersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var controller = Get.put(OrdersController());
+    Get.put(OrdersController());
     return Scaffold(
         appBar: appBarWidget(orders),
         body: StreamBuilder(

@@ -20,7 +20,7 @@ class AuthController extends GetxController {
       userCredential = await _auth.signInWithEmailAndPassword(
           email: emailController.text, password: passwordController.text);
     } on FirebaseAuthException catch (e) {
-      print(e.toString());
+      VxToast.show(context, msg: e.toString(), bgColor: red);
     }
     return userCredential;
   }
@@ -30,7 +30,7 @@ class AuthController extends GetxController {
     try {
       await auth.signOut();
     } catch (e) {
-      print(e.toString());
+      VxToast.show(context, msg: e.toString(), bgColor: red);
     }
   }
 }
